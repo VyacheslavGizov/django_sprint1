@@ -44,27 +44,18 @@ posts = [
                 укутывал их, чтобы не испортились от дождя.''',
     },
 ]
+indexed_posts = {post['id']: post for post in posts}
 
 
 def index(request):
-    context = {
-        'posts': posts,
-    }
-    return render(request, 'blog/index.html', context)
+    return render(request, 'blog/index.html', {'posts': posts})
 
 
 def post_detail(request, post_id):
-    try:
-        context = {
-            'post': [post for post in posts if post['id'] == post_id][0],
-        }
-    except IndexError:
+    if post_id not in indexed_posts.keys():
         raise Http404(f'Post with id {post_id} not found: wrong id.')
-    return render(request, 'blog/detail.html', context)
+    return render(request, 'blog/detail.html', {'post': indexed_posts[post_id]})
 
 
 def category_posts(request, category_slug):
-    context = {
-        'category': category_slug,
-    }
-    return render(request, 'blog/category.html', context)
+    return render(request, 'blog/category.html', {'category': category_slug})
