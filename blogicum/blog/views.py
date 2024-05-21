@@ -54,7 +54,9 @@ def index(request):
 def post_detail(request, post_id):
     if post_id not in indexed_posts.keys():
         raise Http404(f'Post with id {post_id} not found: wrong id.')
-    return render(request, 'blog/detail.html', {'post': indexed_posts[post_id]})
+    return render(
+        request, 'blog/detail.html', {'post': indexed_posts[post_id]}
+    )
 
 
 def category_posts(request, category_slug):
