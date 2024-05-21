@@ -1,0 +1,20 @@
+<ul>
+  <li>
+    {{ post.location }}              
+  </li>
+  <li>
+    {{ post.date }}
+  </li>
+  <li>
+    Категория: <a href="{% url 'blog:category_posts' post.category %}">{{ post.category }}</a>
+  </li>
+</ul>     
+<p>
+  {% with request.resolver_match.view_name as view_name %}   
+    {% if view_name == 'blog:index' %}
+       {{ post.text|linebreaksbr|truncatewords:10}}
+    {% elif view_name == 'blog:post_detail' %}
+      {{ post.text|linebreaksbr }}
+    {% endif %}
+  {% endwith %}
+</p>
